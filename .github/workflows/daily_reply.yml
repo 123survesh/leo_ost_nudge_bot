@@ -1,6 +1,7 @@
 on:
   schedule:
     - cron: '0 12 * * *' # Runs daily at 12:00 PM UTC
+  workflow_dispatch:      # Allows manual trigger button in GitHub UI
 jobs:
   run-bot:
     runs-on: ubuntu-latest
