@@ -1,6 +1,8 @@
 import tweepy
 import datetime
 import os
+import json
+import random
 
 API_KEY = os.environ.get("API_KEY")
 API_SECRET = os.environ.get("API_SECRET")
@@ -17,9 +19,24 @@ client = tweepy.Client(
 # Replace with the Tweet ID you want to reply to
 target_tweet_id = "1847613033058570417"
 
+def get_reminder_message():
+    try:
+        with open("reminder_messages.json", "r", encoding="utf-8") as f:
+            messages = json.load(f)
+            messages_count = len(messages)
+            random_message_index = random.randint(0, messages_count-1)
+            random_message = messages[random_message_index]
+            return random_message["text"]
+    except Exception as e:
+        print(e)
+        return  "@anirudhofficial bro, gentle reminder. [Sent at "
+        
+
 try:
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    tweet_text = f"@anirudhofficial bro, gentle reminder. [Sent at {now}]"
+    message = get_reminder_message()
+    tweet_text = f"{message} {now}]"
+
     # Post the reply
     response = client.create_tweet(
         text=tweet_text,
