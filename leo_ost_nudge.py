@@ -26,23 +26,23 @@ def get_reminder_message():
             messages_count = len(messages)
             random_message_index = random.randint(0, messages_count-1)
             random_message = messages[random_message_index]
-            return random_message["text"]
+            return random_message
     except Exception as e:
         print(e)
-        return  "@anirudhofficial bro, gentle reminder. [Sent at "
+        return  { text: "@anirudhofficial bro, gentle reminder. [Sent at ", language: 'English' }
         
 
 try:
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     message = get_reminder_message()
-    tweet_text = f"{message} {now}]"
+    tweet_text = f"({message['language']}) {message['text']} {now}]"
 
     # Post the reply
     response = client.create_tweet(
         text=tweet_text,
         in_reply_to_tweet_id=target_tweet_id
     )
-    print(f"Reply posted successfully: {response.data['id']}")
+    print(f"Reply posted successfully: {response.data['id']} \n{tweet_text}")
 except tweepy.errors.Forbidden as e:
     print(f"Forbidden Error (403): {e.api_messages if hasattr(e, 'api_messages') else e}")
 except Exception as e:
