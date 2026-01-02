@@ -43,5 +43,7 @@ try:
         in_reply_to_tweet_id=target_tweet_id
     )
     print(f"Reply posted successfully: {response.data['id']}")
+except tweepy.errors.Forbidden as e:
+    print(f"Forbidden Error (403): {e.api_messages if hasattr(e, 'api_messages') else e}")
 except Exception as e:
     print(f"Error: {e}")
